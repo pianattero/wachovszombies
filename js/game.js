@@ -4,7 +4,7 @@ class Game {
         this.ctx = this.canvas.getContext('2d');
         this.intervalidId = null;
         this.bg = new Background(this.ctx);
-        this.player = new Player(this.ctx, 100, 100);
+        this.player = new Player(this.ctx, 100, 220);
     }
 
     preStart() {
@@ -29,11 +29,11 @@ class Game {
     move() {
         this.bg.move();
         this.player.move();
-
     }
 
     clear() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.player.bullets = this.player.bullets.filter(bullet => bullet.x < this.canvas.width);
     }
 
     onKeyDown(event) {
