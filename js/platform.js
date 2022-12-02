@@ -1,27 +1,26 @@
-class Background {
-    constructor(ctx) {
+class Platform {
+    constructor(ctx, x, y) {
         this.ctx = ctx;
-        this.x = 0;
-        this.y = 0;
-        this.width = this.ctx.canvas.width;
-        this.height = this.ctx.canvas.height;
+        this.x = x;
+        this.y = y;
+        this.width = 50;
         this.img = new Image();
-        this.img.src = '/images/bg.webp';
+        this.img.src = '/images/platform.png'
         this.img.onload = () => {
-            this.isReady = true;
-        }
+			this.isReady = true;
+			this.height = this.width * this.img.height / this.img.width;
+		};
+
         this.directions = {
 			left: false,
 			right: false
 		};
         this.speed = 0;
     }
-
+    
     draw() {
 		if (this.isReady) {
 			this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-            this.ctx.drawImage(this.img, this.x + this.width, this.y, this.width, this.height);
-			this.ctx.drawImage(this.img, this.x - this.width, this.y, this.width, this.height)
 		}
     }
 
@@ -35,10 +34,6 @@ class Background {
 		} else {
 			this.speed = 0;
 		}
-
-        if (this.x + this.width <= 0 || this.x > this.width) {
-			this.x = 0;
-		}
     }
 
     onKeyEvent(event) {
@@ -48,5 +43,4 @@ class Background {
 			this.directions.right = event.type === "keydown";
 		}
 	}
-
 }

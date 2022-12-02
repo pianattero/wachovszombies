@@ -1,9 +1,11 @@
 class Player {
-    constructor(ctx, x, y) {
+    constructor(ctx, x, y, health) {
         this.ctx = ctx;
         this.x = x;
         this.y = y;
-        this.width = 100;
+		this.lastY = 0;
+		this.health = health;
+        this.width = 40;
         this.state = undefined;
         this.bullets = [];
 
@@ -14,13 +16,12 @@ class Player {
 
 		this.img = new Image();
 		this.img.src = "/images/player-sprite.png";
-		this.isReady = false;
 		this.img.onload = () => {
 			this.isReady = true;
-			this.height = this.width * this.img.height / this.img.width;
+			this.height = this.width * (this.img.height / this.verticalFrames) / (this.img.width / this.horizontalFrames);
 		};
-
-		this.speed = 5;
+		this.vy = 5;
+		this.vx = 0;
 		this.gravity = 0.5;
 		this.tick = 0;
 
@@ -57,11 +58,13 @@ class Player {
 	}
 
 	move() {
-		this.speed += this.gravity;
-		this.y += this.speed;
+		this.x += this.vx;
+		this.lastY = this.y;
+		this.y += this.vy;
+		this.vy += this.gravity;
 
         if (this.directions.left) {
-			if (this.tick % 10 === 0) {
+			if (this.tick % 8 === 0) {
                 this.yFrame = 2;
 				this.xFrame++;
                 if (this.xFrame >= this.horizontalFrames) {
@@ -93,8 +96,8 @@ class Player {
 			
 		};
 
-		if (this.y + this.height > this.ctx.canvas.height - 100) {
-            this.y = this.ctx.canvas.height - this.height - 100;
+		if (this.y + this.height > this.ctx.canvas.height - 20) {
+            this.y = this.ctx.canvas.height - this.height - 20;
 		    this.isJumping = false;
 		};
 
@@ -103,6 +106,40 @@ class Player {
             this.bullets.forEach(bullet => bullet.move());
         }
 	}
+
+	receiveDamage (bulletStrength) {
+        this.health = this.health - bulletStrength
+    }
+
+	collideWith(obstacle) {
+			if (
+					this.x < obstacle.x + obstacle.width 
+					&& this.x + this.width > obstacle.x 
+					&& this.y  < obstacle.y + obstacle.height 
+					&& this.y + this.height > obstacle.y 
+					&& this.lastY > obstacle.y + obstacle.height
+				) {
+				return 'case1'
+			} else if (
+				this.x < obstacle.x + obstacle.width 
+				&& this.x + this.width > obstacle.x 
+				&& this.y  < obstacle.y + obstacle.height 
+				&& this.y + this.height > obstacle.y 
+				&& this.lastY + this.height <= obstacle.y 
+			) {
+				return 'case2'
+			} else if (
+				this.x < obstacle.x + obstacle.width 
+				&& this.x + this.width > obstacle.x 
+				&& this.y  < obstacle.y + obstacle.height 
+				&& this.y + this.height > obstacle.y 
+			) {
+				return 'case3'
+			} else {
+				return false
+			}
+
+    }
 
 	onKeyDown(event) {
 		if (event.keyCode === 37) {
@@ -117,12 +154,12 @@ class Player {
         
 		if (event.keyCode === 38 && !this.isJumping) {
 			this.isJumping = true;
-			this.speed = -10;
+			this.vy = -12;
 		}
 
         if (event.keyCode === 32 && !this.isShooting) {
             this.isShooting = true;
-			this.bullets.push(new Bullet(this.ctx, this.x + 70, this.y + 45, 10));
+			this.bullets.push(new Bullet(this.ctx, this.x + 35, this.y + 35, 10, 20, 6));
             setTimeout(() => {
                 this.isShooting = false;
             }, 100)
