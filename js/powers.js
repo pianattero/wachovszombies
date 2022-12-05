@@ -4,10 +4,10 @@ class Powers {
         this.x = x;
         this.y = y;
         this.type = type;
-        this.width = 35;
+        this.width = 40;
         this.isVisible = true;
         this.img = new Image();
-        this.img.src = `/images/${this.type}.png`
+        this.img.src = `/images/power-${this.type}.png`
         this.img.onload = () => {
             this.isReady = true;
             this.height = this.width * this.img.height / this.img.width;
@@ -19,8 +19,8 @@ class Powers {
 		};
 
         this.vx = 0;
-        // this.vy = -2;
-        // this.gravity = 2;
+        this.vy = -2;
+        this.gravity = 2;
     }
 
     draw() {
@@ -31,7 +31,7 @@ class Powers {
 
     move() {
         this.x += this.vx;
-        
+
         if (this.directions.left) {
 			this.vx = 5;
 		} else if (this.directions.right) {
@@ -39,8 +39,6 @@ class Powers {
 		} else {
 			this.vx = 0;
 		}
-
-
     }
 
     onKeyEvent(event) {

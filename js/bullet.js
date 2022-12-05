@@ -9,7 +9,7 @@ class Bullet {
         this.isVisible = true;
         this.img = new Image();
         this.type = type || 'default'
-        this.img.src = `/images/${this.type}.png`
+        this.img.src = `/images/power-${this.type}.png`
         this.img.onload = () => {
             this.isReady = true;
             this.height = this.width * this.img.height / this.img.width
@@ -22,11 +22,13 @@ class Bullet {
 		}
     }
 
-	move() {
+	move(bgSpeed) {
+
         if (this.type === 'default' || this.type === 'chori' || this.type === 'ddl') {
             this.x += this.speed;
         } else if (this.type === 'zombieBullet') {
-            this.x -= this.speed;
+            this.speed = bgSpeed - 7;
+            this.x += this.speed;
         }
 	}
 }

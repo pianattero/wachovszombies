@@ -1,7 +1,89 @@
-#canvas {
-    display: block;
+body {
+    background-image: url(/images/bg-body.jpeg);
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .hidden {
     display: none;
 }
+
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 50px;
+}
+
+.page-style {
+    margin-top: 20px;
+    border: 4px solid black;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.75);
+    height: 550px;
+    width: 800px;
+}
+
+#game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#canvas {
+    display: block;
+    margin-top: 50px;
+}
+
+.menu-btns {
+    display: flex;
+}
+
+.btn {
+    position: relative;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 4px;
+    letter-spacing: 2px;
+    padding: 10px;
+    margin: 10px;
+    transition: 0.5s;
+    margin: 10px;
+}
+
+.btn:hover {
+    color: black;
+    background: black url(/images/pixel.png);
+    border-radius: 4px;
+    transition-delay: 0.6s;
+    background-size: 180px;
+    animation: Animate 0.8s steps(8) forwards;
+}
+
+@keyframes Animate {
+    0%{
+        background-position-y: 0;
+    }
+    100%{
+        background-position-y: -480px;
+    }
+}
+
+.instructions {
+    width: 800px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.instructions .mate {
+    margin-right: 45px;
+}
+
+.instructions-text {
+    color: white;
+}
+

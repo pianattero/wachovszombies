@@ -1,12 +1,13 @@
 class Enemy {
-    constructor(ctx, x, y, health, type) {
+    constructor(ctx, x, y, health, speed, type) {
         this.ctx = ctx;
         this.x = x;
         this.y = y;
         this.health = health;
+        this.speed = speed;
         this.type = type || 'default';
         this.width = 45;
-        this.isVisible = true;
+        this.damage = 5;
         this.bullets = [];
         this.isShooting = false;
 
@@ -16,13 +17,12 @@ class Enemy {
 		this.yFrame = 0;
 
         this.img = new Image();
-        this.img.src = '/images/enemy.png';
+        this.img.src = `/images/enemy-${this.type}.png`;
         this.img.onload = () => {
 			this.isReady = true;
 			this.height = this.width * this.img.height / (this.img.width / this.horizontalFrames);
 		};
 
-        this.speed = -5;
         this.tick = 0;
         this.playerDirections = {
             right: false,
@@ -31,7 +31,7 @@ class Enemy {
     }
 
     draw() {
-		if (this.isReady &&  this.isVisible) {
+		if (this.isReady) {
 			this.ctx.drawImage(
 				this.img,
 				this.img.width / this.horizontalFrames * this.xFrame,
@@ -51,12 +51,11 @@ class Enemy {
         }
 	}
 
-    move({ right, left }) {
-        if (this.tick % 10 === 0) {
-            const newSpeed = right ? -12 : -3;
-            const playerIsMoving = right || left;
+    move(bgSpeed) {
+        this.speed = bgSpeed - 1;
+        this.x += this.speed;
 
-            this.x += !playerIsMoving ? this.speed : newSpeed;
+        if (this.tick % 10 === 0) {
             this.xFrame++;
 
             if (this.xFrame >= this.horizontalFrames) {
@@ -66,18 +65,16 @@ class Enemy {
             if (this.type === 'shooter') {
                 if (this.tick % 500 === 0) {
                     this.isShooting = true;
-                    this.bullets.push(new Bullet(this.ctx, this.x - 35, this.y + 10, 50, 20, 3, 'zombieBullet'));
+                    this.bullets.push(new Bullet(this.ctx, this.x - 35, this.y + 10, 50, 20, 6, 'zombieBullet'));
                     this.isShooting = false;
                 }
             }
-
         }
-        this.bullets.forEach(bullet => bullet.move());
-
+        this.bullets.forEach(bullet => {bullet.move(bgSpeed)});
 	}
 
-    receiveDamage (bulletStrength) {
-        this.health = this.health - bulletStrength
+    receiveDamage (damage) {
+        this.health = this.health - damage
     }
 
     collideWith(obstacle) {

@@ -1,24 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles/styles.css">
-    <title>Proyect 1</title>
-</head>
-<body>
-    <canvas id="canvas" width="1200" height="400"></canvas>
-    <button class="start-btn">START</button>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/styles/styles.css" />
+        <title>El Wacho vs. Zombies</title>
+    </head>
 
-    <script src="./js/platform.js"></script>
-    <script src="./js/powers.js"></script>
-    <script src="./js/constants.js"></script>
-    <script src="./js/background.js"></script>
-    <script src="./js/bullet.js"></script>
-    <script src="./js/player.js"></script>
-    <script src="./js/enemy.js"></script>
-    <script src="./js/game.js"></script>
-    <script src="./js/index.js"></script>
-</body>
+    <body>
+        <div id="game">
+            <img src="./images/name2.png" alt="Game name"/>
+            <div class="canvas-div hidden">
+                <canvas id="canvas" width="1200" height="400"></canvas>
+            </div>
+
+            <div class="home-page page-style flex">
+                <p class="instructions-text">ZOMBIE APOCALYPSE ALERT!</p>
+                <div class="menu-btns">
+                    <a class="start-btn btn" href="#">START</a>
+                    <a class="how-to-play-btn btn" href="#">HOW TO PLAY</a>
+                </div>
+            </div>
+
+            <div class="how-to-play-page1 page-style hidden">
+                <h1 class="instructions-text">HOW TO MOVE YOUR WACHO:</h1>
+                <div class="instructions">
+                    <div class="instructions-text">
+                        <p>PRESS THE RIGHT AND LEFT ARROW TO CHANGE THE DIRECTION.</p>
+                        <p>PRESS THE UP ARROW TO JUMP.</p>
+                    </div>
+                    <img src="/images/arrows.png" alt="Arrows">
+                </div>
+                <div class="instructions instructions-text">
+                    <p>PRESS THE SPACEBAR TO SHOOT.</p>
+                    <img width="200" src="/images/spacebar.png" alt="Spacebar">
+                </div>
+                <a class="next-btn btn" href="#">NEXT</a>
+            </div>
+
+            <div class="how-to-play-page2 page-style hidden">
+                <div class="instructions">
+                    <div class="instructions-text">
+                        <p>.</p>
+                    </div>
+                    <img width="160" src="/images/zombies.png" alt="Types of zombies">
+                </div>
+                <div class="instructions">
+                    <div class="instructions-text">
+                        <p>.</p>
+                    </div>
+                    <img width="150" src="/images/powers.png" alt="Shooting powers">
+                </div>
+                <div class="instructions instructions-text">
+                    <div class="instructions-text">
+                        <p>.</p>
+                    </div>
+                    <img class="mate" width="65" src="/images/power-mate.png" alt="Mate power">
+                </div>
+                <div class="menu-btns">
+                    <a class="previous-btn btn" href="#">PREVIOUS</a>
+                    <a class="home-btn btn" href="#">HOME</a>
+                </div>
+            </div>
+        </div>
+
+        <script src="./js/platform.js"></script>
+        <script src="./js/powers.js"></script>
+        <script src="./js/constants.js"></script>
+        <script src="./js/background.js"></script>
+        <script src="./js/bullet.js"></script>
+        <script src="./js/player.js"></script>
+        <script src="./js/enemy.js"></script>
+        <script src="./js/game.js"></script>
+        <script src="./js/index.js"></script>
+    </body>
 </html>
