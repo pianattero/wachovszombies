@@ -12,7 +12,7 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 0 50px;
+    padding: 0 100px;
 }
 
 .page-style {
@@ -20,7 +20,7 @@ body {
     border: 4px solid black;
     border-radius: 4px;
     background-color: rgba(0, 0, 0, 0.75);
-    height: 550px;
+    height: 500px;
     width: 800px;
 }
 
@@ -79,11 +79,15 @@ body {
     margin-bottom: 10px;
 }
 
-.instructions .mate {
-    margin-right: 45px;
+.z-and-p-instructions {
+    width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .instructions-text {
     color: white;
+    text-align: center;
 }
 
