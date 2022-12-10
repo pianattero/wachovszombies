@@ -1,10 +1,10 @@
 class Enemy {
-    constructor(ctx, x, y, health, speed, type) {
+    constructor(ctx, x, y, health, type) {
         this.ctx = ctx;
         this.x = x;
         this.y = y;
         this.health = health;
-        this.speed = speed;
+        this.speed = 0;
         this.type = type || 'default';
         this.width = 45;
         this.damage = 5;
@@ -55,6 +55,11 @@ class Enemy {
         this.speed = bgSpeed - 1;
         this.x += this.speed;
 
+        if (this.type === 'runner') {
+            this.speed = -6
+            this.x += this.speed;
+        };
+
         if (this.tick % 10 === 0) {
             this.xFrame++;
 
@@ -63,7 +68,7 @@ class Enemy {
             };
 
             if (this.type === 'shooter') {
-                if (this.tick % 500 === 0) {
+                if (this.tick % 400 === 0) {
                     this.isShooting = true;
                     this.bullets.push(new Bullet(this.ctx, this.x - 35, this.y + 10, 50, 20, 6, 'zombieBullet'));
                     this.isShooting = false;

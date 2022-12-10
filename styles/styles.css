@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Zen+Dots&family=Zen+Kaku+Gothic+Antique:wght@300;400;500;700&display=swap');
+
 body {
     background-image: url(/images/bg-body.jpeg);
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Zen Dots', cursive;
 }
 
 .hidden {
@@ -12,14 +14,14 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 0 100px;
+    padding: 10px 50px;
 }
 
 .page-style {
     margin-top: 20px;
-    border: 4px solid black;
+    border: 4px solid #0E0E10;
     border-radius: 4px;
-    background-color: rgba(0, 0, 0, 0.75);
+    background-color: #0e0e10bd;
     height: 500px;
     width: 800px;
 }
@@ -31,9 +33,13 @@ body {
     justify-content: center;
 }
 
+.canvas-div {
+    margin-top: 30px;
+}
+
 #canvas {
     display: block;
-    margin-top: 50px;
+    margin-bottom: 5px;
 }
 
 .menu-btns {
@@ -42,15 +48,15 @@ body {
 
 .btn {
     position: relative;
-    color: white;
+    color: #FBFFFE;
     text-decoration: none;
     text-align: center;
     border-radius: 4px;
     letter-spacing: 2px;
     padding: 10px;
-    margin: 10px;
+    margin: 10px 20px;
+    margin-bottom: 10px;
     transition: 0.5s;
-    margin: 10px;
 }
 
 .btn:hover {
@@ -71,6 +77,10 @@ body {
     }
 }
 
+.game-description p {
+    margin: 50px 100px;
+}
+
 .instructions {
     width: 800px;
     display: flex;
@@ -80,14 +90,45 @@ body {
 }
 
 .z-and-p-instructions {
-    width: 800px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
 }
 
 .instructions-text {
-    color: white;
+    color: #FBFFFE;
     text-align: center;
 }
 
+.first-p {
+    margin-bottom: 20px;
+}
+
+.spacebar {
+    margin-left: 135px;
+}
+
+.description {
+    width: 250px;
+    height: 250px;
+    margin: 0 10px;
+}
+
+.description h2 {
+    font-size: 20px;
+}
+
+.description p {
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.description img {
+    margin-top: 20px;
+}
+
+.end-img {
+    opacity: 0.6;
+    margin: 10px;
+}

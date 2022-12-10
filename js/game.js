@@ -11,6 +11,7 @@ class Game {
         this.platforms = platforms;
         this.powers = powers;
         this.powerBullets = powerBullets;
+        this.powerTimer = 0;
     }
 
     start() {
@@ -19,15 +20,50 @@ class Game {
             this.draw();
             this.move();
             this.checkCollisions();
+            this.drawScore();
+            this.drawPlayerHealth();
             this.tick++;
-            if (this.tick % 1300 === 0) {
-                this.addEnemy();
+
+            switch (true) {
+                case this.score < 10:
+                    if (this.tick % 400 === 0) {
+                        this.addEnemy();
+                    }
+                    break;
+                case this.score >= 10 && this.score < 25:
+                    if (this.tick % 300 === 0) {
+                        this.addEnemy();
+                    }
+                    if (this.tick % 550 === 0) {
+                        this.addEnemyShooter();
+                    }
+                    break;
+                case this.score >= 25 && this.score < 50:
+                    if (this.tick % 300 === 0) {
+                        this.addEnemy();
+                    }
+                    if (this.tick % 100 === 0) {
+                        this.addEnemyShooter();
+                    }
+                    if (this.tick % 100 === 0) {
+                        this.addEnemyRunner();
+                    }
+                    break;
+                case this.score > 50:
+                    if (this.tick % 300 === 0) {
+                        this.addEnemy();
+                    }
+                    if (this.tick % 100 === 0) {
+                        this.addEnemyShooter();
+                    }
+                    if (this.tick % 100 === 0) {
+                        this.addEnemyRunner();
+                    }
+                    break;
             }
-            if (this.tick % 1100 === 0) {
-                this.addEnemyShooter();
-            }
-            if (this.tick % 1110 === 0) {
-                this.addEnemyRunner();
+            
+            if (this.tick % 60 === 0 && this.powerTimer > 0) {
+                this.powerTimer--;
             }
         }, 1000 / 60);
     }
@@ -44,11 +80,14 @@ class Game {
         this.powers.forEach((power) => {
             power.draw();
         });
+        if (this.powerTimer > 0) {
+            this.printSeconds();
+        };
     }
 
     move() {
         this.bg.move();
-        this.player.move();
+        this.player.move(this.bg.speed);
         this.enemies.forEach((enemy) => {
             enemy.move(this.bg.speed);
         });
@@ -58,39 +97,39 @@ class Game {
         this.powers.forEach((power) => {
             power.move();
         });
+        if (this.powerTimer === 0) {
+            this.player.canShoot = false;
+        }
     }
 
-    addEnemy() {
+    addEnemy(x = 0) {
         const enemyDefault = new Enemy(
             this.ctx,
-            this.canvas.width,
+            this.canvas.width + x,
             310,
             100,
-            -5,
             "default"
         );
         this.enemies.push(enemyDefault);
     }
 
-    addEnemyShooter() {
+    addEnemyShooter(x = 0) {
         const enemyShooter = new Enemy(
             this.ctx,
-            this.canvas.width,
+            this.canvas.width + x,
             310,
             100,
-            -5,
             "shooter"
         );
         this.enemies.push(enemyShooter);
     }
 
-    addEnemyRunner() {
+    addEnemyRunner(x = 0) {
         const enemyRunner = new Enemy(
             this.ctx,
-            this.canvas.width,
+            this.canvas.width + x,
             310,
             100,
-            -5,
             "runner"
         );
         this.enemies.push(enemyRunner);
@@ -103,6 +142,14 @@ class Game {
                 if (enemy.collideWith(bullet)) {
                     bullet.isVisible = false;
                     enemy.receiveDamage(bullet.strength);
+
+                    if (enemy.health <= 0) {
+                        this.score += 1;
+                    }
+
+                    if (this.score >= 100) {
+                        this.winPage();
+                    }
                 }
             });
         });
@@ -123,15 +170,13 @@ class Game {
                             this.player.yFrame = 1;
                         }
 
-                        setTimeout(() => {
-                            this.bg.speed = 5;
-                            this.enemies.forEach((enemy) => {
-                                enemy.x += 5;
-                                enemy.bullets.forEach((bullet) => {
-                                    bullet.x += 5;
-                                })
-                            });
-                        }, 200)
+                        this.bg.speed = 5;
+                        this.enemies.forEach((enemy) => {
+                            enemy.x += 5;
+                            enemy.bullets.forEach((bullet) => {
+                                bullet.x += 5;
+                            })
+                        });
                     }
                 }
             });
@@ -154,6 +199,10 @@ class Game {
                     }
 
                     setTimeout(() => {
+                        this.player.isInvincible = false;
+                    }, 1000)
+
+                    setTimeout(() => {
                         this.bg.speed = 10;
                         this.enemies.forEach((enemy) => {
                             enemy.x += 10;
@@ -161,7 +210,6 @@ class Game {
                                 bullet.x += 10;
                             })
                         });
-                        this.player.isInvincible = false;
                     }, 200)
                 }
             }
@@ -170,30 +218,50 @@ class Game {
         // Player collides with powers
         this.powers.some((power) => {
             const collision = this.player.collideWith(power);
+
             if (collision) {
                 if (collision === 'collide') {
                     power.isVisible = false;
                     if(power.type === 'bulletsIcon') {
                         this.player.canShoot = true;
-                        this.player.state = this.powerBullets[0]
-                    } 
-                    
+                        this.player.state = this.powerBullets[0];
+                        this.powerTimer = 10;
+                    }
                     if(power.type === 'ddl') {
                         this.player.canShoot = true;
-                        this.player.state = this.powerBullets[1]
+                        this.player.state = this.powerBullets[1];
+                        this.powerTimer = 5;
+
+                        this.addEnemy(0)
+                        this.addEnemy(100)
+                        this.addEnemy(200)
+                        this.addEnemy(300)
+                        this.addEnemy(400)
+                        this.addEnemyRunner(10)
+
                     }
-                    
                     if(power.type === 'chori') {
                         this.player.canShoot = true;
-                        this.player.state = this.powerBullets[2]
+                        this.player.state = this.powerBullets[2];
+                        this.powerTimer = 5;
+
+                        this.addEnemy(0)
+                        this.addEnemy(100)
+                        this.addEnemy(200)
+                        this.addEnemy(300)
+                        this.addEnemyShooter(400)
+                        this.addEnemy(450)
+                        this.addEnemyRunner(10)
+                        this.addEnemyRunner(150)
+
                     };
-                    setTimeout(() => {
-                        this.player.canShoot = false;
-                    }, 10_000)
                     
                     if(power.type === 'mate') {
-                        this.player.health += 20
-                        if(this.player.health === 100) {
+                        if (this.player.health <= 80) {
+                            this.player.health += 20
+                        } else if (this.player.health > 80) {
+                            this.player.health = 100;
+                        } else if (this.player.health === 100) {
                             this.player.health = 100;
                         }
                     }
@@ -214,6 +282,10 @@ class Game {
                 }
             }
         });
+
+        if (this.player.health <= 0) {
+            this.gameOver();
+        }
     }
 
     clear() {
@@ -229,8 +301,56 @@ class Game {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
+    drawScore() {
+		this.ctx.fillStyle = '#ffffff';
+		this.ctx.font = '16px Courier New';
+		this.ctx.fillText("Kills: " + this.score, 1090, 30);
+	}
+
+    drawPlayerHealth() {
+        this.ctx.fillStyle = '#ffffff';
+		this.ctx.font = '16px Courier New';
+		this.ctx.fillText("Wacho's Health: " + this.player.health, 10, 30);
+    }
+
     gameOver() {
         clearInterval(this.intervalId);
+        this.intervalId = null;
+        const finalKills = document.querySelector('#total-score-lose');
+        finalKills.textContent = this.score;
+
+        setTimeout(() => {
+            const gameOverPage = document.querySelector('.game-over')
+            const gamePage = document.querySelector('.canvas-div')
+            
+            gamePage.classList.remove('flex');
+            gamePage.classList.add('hidden');
+            gameOverPage.classList.remove('hidden');
+	        gameOverPage.classList.add('flex');
+        }, 1000)
+    }
+
+    winPage() {
+        clearInterval(this.intervalId);
+        this.intervalId = null;
+        const finalKills = document.querySelector('#total-score-won');
+        finalKills.textContent = this.score;
+
+        setTimeout(() => {
+            const gameWonPage = document.querySelector('.game-won')
+            const gamePage = document.querySelector('.canvas-div')
+            
+            gamePage.classList.remove('flex');
+            gamePage.classList.add('hidden');
+            gameWonPage.classList.remove('hidden');
+            gameWonPage.classList.add('flex');
+        }, 1000)
+    }
+
+    printSeconds() {
+        this.ctx.fillStyle = 'red';
+		this.ctx.font = '20px Courier New';
+		this.ctx.fillText("SHOOTING TIME: " + this.powerTimer, 500, 50);
     }
 
     onKeyDown(event) {

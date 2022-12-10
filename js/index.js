@@ -8,21 +8,22 @@ nextBtn2 = document.querySelector('.next-btn2');
 previousBtn = document.querySelector('.previous-btn');
 previousBtn2 = document.querySelector('.previous-btn2');
 homeBtn = document.querySelector('.home-btn');
+playAgainBtn = document.querySelector('.playAgain-btn');
+playAgainBtn2 = document.querySelector('.playAgain-btn2');
 homeDiv = document.querySelector('.home-page');
 howToPlayDiv1 = document.querySelector('.how-to-play-page1');
 howToPlayDiv2 = document.querySelector('.how-to-play-page2');
 howToPlayDiv3 = document.querySelector('.how-to-play-page3');
-
+gameOverDiv = document.querySelector('.game-over');
+gameWonDiv = document.querySelector('.game-won');
 
 startBtn.addEventListener('click', () => {
 	game.start();
 	canvasDiv.classList.remove('hidden');
-    startBtn.classList.add('hidden');
-	howToPlayBtn.classList.add('hidden');
+	canvasDiv.classList.add('flex');
 	homeDiv.classList.remove('flex');
 	homeDiv.classList.add('hidden');
-	howToPlayDiv1.classList.remove('flex');
-	howToPlayDiv1.classList.add('hidden');
+	
 });
 
 howToPlayBtn.addEventListener('click', () => {
@@ -65,6 +66,20 @@ homeBtn.addEventListener('click', () => {
 	homeDiv.classList.add('flex');
 	howToPlayDiv3.classList.remove('flex');
 	howToPlayDiv3.classList.add('hidden');
+});
+
+playAgainBtn.addEventListener('click', () => {
+	homeDiv.classList.remove('hidden');
+	homeDiv.classList.add('flex');
+	gameOverDiv.classList.remove('flex');
+	gameOverDiv.classList.add('hidden');
+});
+
+playAgainBtn2.addEventListener('click', () => {
+	homeDiv.classList.remove('hidden');
+	homeDiv.classList.add('flex');
+	gameWonDiv.classList.remove('flex');
+	gameWonDiv.classList.add('hidden');
 });
 
 document.addEventListener('keydown', function(event) {

@@ -5,6 +5,7 @@ class Player {
         this.y = y;
         this.lastY = 0;
         this.health = health;
+        this.maxHealth = health
         this.width = 40;
         this.state = undefined;
         this.bullets = [];
@@ -61,7 +62,7 @@ class Player {
         this.bullets.forEach((bullet) => bullet.draw());
     }
 
-    move() {
+    move(bgSpeed) {
         this.x += this.vx;
         this.lastY = this.y;
         this.y += this.vy;
@@ -104,7 +105,7 @@ class Player {
             this.isJumping = false;
         }
 
-		this.bullets.forEach((bullet) => bullet.move());
+		this.bullets.forEach((bullet) => bullet.move(bgSpeed));
     }
 
     receiveDamage(damage) {
@@ -158,8 +159,11 @@ class Player {
 
         if (event.keyCode === 32 && !this.isShooting && this.canShoot) {
             this.isShooting = true;
+            const bulletSpeed = this.lastDirection.right ? 6 : -6;
+            const xPosition = this.lastDirection.right ? this.x + 30 : this.x - 30;
+
             this.bullets.push(
-                new Bullet(this.ctx, this.x + 35, this.y + 25, this.state.width, this.state.strength, 6, this.state.type)
+                new Bullet(this.ctx, xPosition, this.y + 25, this.state.width, this.state.strength, bulletSpeed, this.state.type)
             );
             setTimeout(() => {
                 this.isShooting = false;

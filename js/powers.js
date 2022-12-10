@@ -1,10 +1,10 @@
 class Powers {
-    constructor(ctx, x, y, type) {
+    constructor(ctx, x, y, width, type) {
         this.ctx = ctx;
         this.x = x;
         this.y = y;
         this.type = type;
-        this.width = 40;
+        this.width = width;
         this.isVisible = true;
         this.img = new Image();
         this.img.src = `/images/power-${this.type}.png`
@@ -12,6 +12,7 @@ class Powers {
             this.isReady = true;
             this.height = this.width * this.img.height / this.img.width;
         };
+        this.intervalId = null;
 
         this.directions = {
 			left: false,

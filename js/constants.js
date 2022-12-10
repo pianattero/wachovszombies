@@ -9,18 +9,27 @@ const platforms = [
     new Platform(ctx, 2505, 240),
     new Platform(ctx, 2560, 240),
     new Platform(ctx, 2705, 160),
+
+    new Platform(ctx, 4450, 240),
+    new Platform(ctx, 4505, 240),
+    new Platform(ctx, 4560, 240),
+
+    new Platform(ctx, 6450, 240),
+    new Platform(ctx, 6505, 240),
+    new Platform(ctx, 6560, 240),
+    new Platform(ctx, 6705, 160)
 ]
 
 const powers = [
-    new Powers(ctx, 510, 200, 'bulletsIcon'),
-    new Powers(ctx, 2710, 120, 'bulletsIcon'),
+    new Powers(ctx, 510, 200, 35, 'ddl'),
+    new Powers(ctx, 2710, 120, 35, 'ddl'),
 ]
 
 const powerBullets = [
     {
         type: 'default',
         strength: 20,
-        width: 20,
+        width: 25,
     },
     {
         type: 'ddl',
@@ -30,6 +39,6 @@ const powerBullets = [
     {
         type: 'chori',
         strength: 100,
-        width: 20,
+        width: 40,
     },
 ]

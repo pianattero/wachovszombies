@@ -4,19 +4,24 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
         <link rel="stylesheet" href="/styles/styles.css" />
         <title>El Wacho vs. Zombies</title>
     </head>
 
     <body>
         <div id="game">
-            <img src="./images/name2.png" alt="Game name"/>
+            <img class="animate__animated animate__slideInDown" src="./images/name2.png" alt="Game name"/>
             <div class="canvas-div hidden">
                 <canvas id="canvas" width="1200" height="400"></canvas>
             </div>
 
             <div class="home-page page-style flex">
-                <p class="instructions-text">THERE'S BEEN A ZOMBIE APOCALYPSE ALL OVER THE WORLD!</p>
+                <div class="instructions-text game-description">
+                    <p>There's been a worldwide ZOMBIE APOCALYPSE! And Argentina is their last puzzle piece to conquer the world.</p>
+                    <p>Reach a hundred kills before they eat your brains...</p>
+                    <p>Use your skills and secret WACHO powers to SAVE THE WORLD from the zombies!</p>
+                </div>
                 <div class="menu-btns">
                     <a class="start-btn btn" href="#">START</a>
                     <a class="how-to-play-btn btn" href="#">HOW TO PLAY</a>
@@ -24,42 +29,44 @@
             </div>
 
             <div class="how-to-play-page1 page-style hidden">
-                <h1 class="instructions-text">HOW TO MOVE YOUR WACHO:</h1>
+                <h1 class="instructions-text">How to move your wacho:</h1>
                 <div class="instructions">
                     <div class="instructions-text">
-                        <p>PRESS THE RIGHT AND LEFT ARROW TO CHANGE THE DIRECTION.</p>
-                        <p>PRESS THE UP ARROW TO JUMP.</p>
+                        <p>Press the RIGHT and LEFT ARROW to change the direction.</p>
+                        <p>Press the UP ARROW to jump.</p>
                     </div>
                     <img src="/images/arrows.png" alt="Arrows">
                 </div>
-                <div class="instructions instructions-text">
-                    <p>PRESS THE SPACEBAR TO SHOOT.</p>
+                <div class="instructions">
+                    <div class="instructions-text">
+                        <p class="spacebar">Press the SPACEBAR to shoot.</p>
+                    </div>
                     <img width="200" src="/images/spacebar.png" alt="Spacebar">
                 </div>
+                
                 <a class="next-btn btn" href="#">NEXT</a>
             </div>
 
             <div class="how-to-play-page2 page-style hidden">
-                <h1 class="instructions-text">DON'T GET CAUGHT BY THE ZOMBIES!</h1>
+                <h1 class="instructions-text">Don't get caught by the zombies!</h1>
                 <div class="z-and-p-instructions">
                     <div class="instructions-text">
-                        <p></p>
-                        <p>BE CAREFUL! THEY GOT SOME POWERS...</p>
+                        <p class="first-p">BE CAREFUL! They got some powers...</p>
                     </div>
                     <div class="instructions instructions-text">
-                        <div>
-                            <h2>default</h2>
-                            <p>.</p>
+                        <div class="description">
+                            <p>Just try to keep</p>
+                            <p> away from them.</p>
                             <img width="100" src="/images/powerless.png" alt="Zombie default">
                         </div>
-                        <div>
-                            <h2>shooter</h2>
-                            <p>.</p>
+                        <div class="description">
+                            <p>It will hurt you...</p>
+                            <p>and it's bullets too!</p>
                             <img width="100" src="/images/shooter.png" alt="Zombie shooter">
                         </div>
-                        <div>
-                            <h2>runner</h2>
-                            <p>.</p>
+                        <div class="description">
+                            <p>Will outrun you for sure.</p>
+                            <p>Act fast!</p>
                             <img width="100" src="/images/runner.png" alt="Zombie runner">
                         </div>
                     </div>
@@ -72,22 +79,27 @@
             </div>
 
             <div class="how-to-play-page3 page-style hidden">
-                <h1 class="instructions-text">GOOD NEWS IS... YOUR WACHO GOT SOME POWERS TOO!</h1>
-                <div>
+                <h1 class="instructions-text">Good news is... your wacho got some too!</h1>
+                <div class="z-and-p-instructions">
                     <div class="instructions-text">
-                        <p>BE AWARE... SHOOTING POWERS HAVE LIMITED TIME.</p>
+                        <p class="first-p">Be aware... shooting powers got limited time.</p>
                     </div>
                     <div class="instructions instructions-text">
-                        <div>
-                            <p>.</p>
+                        <div class="description">
+                            <p>Bullets will hurt them.</p>
+                            <p>Don't stop shooting</p>
+                            <p>until they're all gone!</p>
                             <img width="80" src="/images/power-bulletsIcon.png" alt="Bullet default">
                         </div>
-                        <div>
-                            <p>.</p>
+                        <div class="description">
+                            <p>Zombies have one weakness, well two...</p>
+                            <p>This will kill them faster! And atract more of them...</p>
                             <img width="170" src="/images/powers.png" alt="Special bullets">
                         </div>
-                        <div>
-                            <p>.</p>
+                        <div class="description">
+                            <p>Feeling low of energy?</p>
+                            <p>Grab a MATIENZO</p>
+                            <p>and recover some of it!</p>
                             <img width="70" src="/images/power-mate.png" alt="Healer mate">
                         </div>
                     </div>
@@ -95,7 +107,35 @@
                 
                 <div class="menu-btns">
                     <a class="previous-btn2 btn" href="#">PREVIOUS</a>
-                    <a class="home-btn btn" href="#">HOME</a>
+                    <a class="home-btn btn" href="#">BACK TO MENU</a>
+                </div>
+            </div>
+
+            <div class="game-over page-style hidden instructions-text">
+                <h1>GAME OVER</h1>
+                <h2>EL WACHO GOT DEFEATED</h2>
+                <div>
+                    <p>You kill <span id="total-score-lose">x</span> zombies.</p>
+                    <img class="end-img" width="200" src="./images/game-over.png" alt="Game over">
+                    <p>But don't worry, you can try again!</p>
+                </div>
+
+                <div class="menu-btns">
+                    <a class="playAgain-btn btn" href="#" onClick="window.location.reload();">PLAY AGAIN</a>
+                </div>
+            </div>
+
+            <div class="game-won page-style hidden instructions-text">
+                <h1>YOU WON</h1>
+                <h2>EL WACHO DEFEATED THE ZOMBIES AND SAVE THE WORLD!</h2>
+                <div>
+                    <p>You kill <span id="total-score-won">x</span> zombies.</p>
+                    <img class="end-img" width="200" src="./images/win.png" alt="Won game">
+                    <p>You can always play again.</p>
+                </div>
+
+                <div class="menu-btns">
+                    <a class="playAgain-btn2 btn" href="#" onClick="window.location.reload();">PLAY AGAIN</a>
                 </div>
             </div>
         </div>
