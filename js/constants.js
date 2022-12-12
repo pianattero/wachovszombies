@@ -21,7 +21,7 @@ const platforms = [
 ]
 
 const powers = [
-    new Powers(ctx, 510, 200, 35, 'ddl'),
+    new Powers(ctx, 510, 200, 35, 'messi'),
     new Powers(ctx, 2710, 120, 35, 'ddl'),
 ]
 

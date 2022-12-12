@@ -7,6 +7,7 @@ class Game {
         this.score = 0;
         this.bg = new Background(this.ctx);
         this.player = new Player(this.ctx, 190, 295, 100);
+        this.messiPower = [];
         this.enemies = [];
         this.platforms = platforms;
         this.powers = powers;
@@ -26,7 +27,7 @@ class Game {
 
             switch (true) {
                 case this.score < 10:
-                    if (this.tick % 400 === 0) {
+                    if (this.tick % 100 === 0) {
                         this.addEnemy();
                     }
                     break;
@@ -65,12 +66,22 @@ class Game {
             if (this.tick % 60 === 0 && this.powerTimer > 0) {
                 this.powerTimer--;
             }
+
+            if (this.score >= 100) {
+                this.winPage();
+            }
+            if (this.player.health <= 0) {
+                this.gameOver();
+            }
         }, 1000 / 60);
     }
 
     draw() {
         this.bg.draw();
         this.player.draw();
+        this.messiPower.forEach((messi) => {
+            messi.draw();
+        });
         this.enemies.forEach((enemy) => {
             enemy.draw();
         });
@@ -80,6 +91,7 @@ class Game {
         this.powers.forEach((power) => {
             power.draw();
         });
+        
         if (this.powerTimer > 0) {
             this.printSeconds();
         };
@@ -88,6 +100,9 @@ class Game {
     move() {
         this.bg.move();
         this.player.move(this.bg.speed);
+        this.messiPower.forEach((messi) => {
+            messi.move();
+        });
         this.enemies.forEach((enemy) => {
             enemy.move(this.bg.speed);
         });
@@ -100,6 +115,15 @@ class Game {
         if (this.powerTimer === 0) {
             this.player.canShoot = false;
         }
+    }
+
+    addMessi() {
+        const messi = new Messi(
+            this.ctx,
+            0,
+            315,
+        );
+        this.messiPower.push(messi);
     }
 
     addEnemy(x = 0) {
@@ -136,7 +160,7 @@ class Game {
     }
 
     checkCollisions() {
-        // Player bullets collides with enemies
+        // Enemies collides with player bullets
         this.enemies.some((enemy) => {
             this.player.bullets.some((bullet) => {
                 if (enemy.collideWith(bullet)) {
@@ -146,13 +170,22 @@ class Game {
                     if (enemy.health <= 0) {
                         this.score += 1;
                     }
-
-                    if (this.score >= 100) {
-                        this.winPage();
-                    }
                 }
             });
         });
+
+        // Enemies collides with messi
+        this.enemies.some((enemy) => {
+            this.messiPower.some((messi) => {
+                if(enemy.collideWith(messi)) {
+                    enemy.health = 0;
+    
+                    if (enemy.health <= 0) {
+                        this.score += 1;
+                    }
+                }
+            })
+        })
 
         // Player collides with zombie Bullets
         this.enemies.some((enemy) => {
@@ -265,6 +298,10 @@ class Game {
                             this.player.health = 100;
                         }
                     }
+
+                    if(power.type === 'messi') {
+                        this.addMessi();
+                    }
                 }
             }
         });
@@ -282,10 +319,6 @@ class Game {
                 }
             }
         });
-
-        if (this.player.health <= 0) {
-            this.gameOver();
-        }
     }
 
     clear() {
@@ -315,7 +348,6 @@ class Game {
 
     gameOver() {
         clearInterval(this.intervalId);
-        this.intervalId = null;
         const finalKills = document.querySelector('#total-score-lose');
         finalKills.textContent = this.score;
 
@@ -332,7 +364,6 @@ class Game {
 
     winPage() {
         clearInterval(this.intervalId);
-        this.intervalId = null;
         const finalKills = document.querySelector('#total-score-won');
         finalKills.textContent = this.score;
 
