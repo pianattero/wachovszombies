@@ -14,12 +14,15 @@
             <img class="animate__animated animate__slideInDown" src="./images/name2.png" alt="Game name"/>
             <div class="canvas-div hidden">
                 <canvas id="canvas" width="1200" height="400"></canvas>
+                <div class="menu-btns">
+                    <a class="pause-btn btn" href="#">PAUSE</a>
+                </div>
             </div>
 
-            <div class="home-page page-style flex">
+            <div class="home-page page-style instructions flex">
                 <div class="instructions-text game-description">
                     <p>There's been a worldwide ZOMBIE APOCALYPSE! And Argentina is their last puzzle piece to conquer the world.</p>
-                    <p>Reach a hundred kills before they eat your brains...</p>
+                    <p>Reach a 100 kills before they eat your brains and defeat us all...</p>
                     <p>Use your skills and secret WACHO powers to SAVE THE WORLD from the zombies!</p>
                 </div>
                 <div class="menu-btns">
@@ -49,7 +52,7 @@
 
             <div class="how-to-play-page2 page-style hidden">
                 <h1 class="instructions-text">Don't get caught by the zombies!</h1>
-                <div class="z-and-p-instructions">
+                <div>
                     <div class="instructions-text">
                         <p class="first-p">BE CAREFUL! They got some powers...</p>
                     </div>
@@ -80,7 +83,7 @@
 
             <div class="how-to-play-page3 page-style hidden">
                 <h1 class="instructions-text">Good news is... your wacho got some too!</h1>
-                <div class="z-and-p-instructions">
+                <div>
                     <div class="instructions-text">
                         <p class="first-p">Be aware... shooting powers got limited time.</p>
                     </div>
@@ -107,8 +110,29 @@
                 
                 <div class="menu-btns">
                     <a class="previous-btn2 btn" href="#">PREVIOUS</a>
+                    <a class="next-btn3 btn" href="#">NEXT</a>
+                </div>
+            </div>
+
+            <div class="how-to-play-page4 page-style hidden">
+                <h1 class="instructions-text">Lastly... use wisely one of your most powerful argentinian weapons.</h1>
+                <div class="instructions-text">
+                    <p>Our PULGA will run over the zombies and kill them all!</p>
+                    <img width="200" src="/images/power-messi.png" alt="Messi Power">
+                </div>
+
+                <div class="menu-btns">
+                    <a class="previous-btn3 btn" href="#">PREVIOUS</a>
                     <a class="home-btn btn" href="#">BACK TO MENU</a>
                 </div>
+            </div>
+
+            <div class="pause-page hidden">
+                <div class="instructions-text">
+                    <p>What's wrong WACHO?</p>
+                    <p>No time for breaks, the world salvation is in your hands!</p>
+                </div>
+                <a class="resume-btn btn" href="#">RESUME</a>
             </div>
 
             <div class="game-over page-style hidden instructions-text">
@@ -129,7 +153,6 @@
                 <h1>YOU WON</h1>
                 <h2>EL WACHO DEFEATED THE ZOMBIES AND SAVE THE WORLD!</h2>
                 <div>
-                    <p>You kill <span id="total-score-won">x</span> zombies.</p>
                     <img class="end-img" width="200" src="./images/win.png" alt="Won game">
                     <p>You can always play again.</p>
                 </div>

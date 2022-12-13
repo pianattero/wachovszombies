@@ -1,9 +1,10 @@
 class Enemy {
-    constructor(ctx, x, y, health, type) {
+    constructor(ctx, x, y, type) {
         this.ctx = ctx;
         this.x = x;
         this.y = y;
-        this.health = health;
+        this.health = 100;
+        this.maxHealth = 100;
         this.speed = 0;
         this.type = type || 'default';
         this.width = 45;
@@ -49,6 +50,22 @@ class Enemy {
         if (this.type === 'shooter') {
             this.bullets.forEach(bullet => bullet.draw());
         }
+
+        // Health Bar
+        if(this.healthPercent() !== undefined){
+            this.ctx.save()
+                this.ctx.fillStyle = '#1F7E08'
+                this.ctx.fillRect(this.x + 3, this.y - 10, this.width, 5)
+            this.ctx.restore()
+            this.ctx.save()
+                this.ctx.fillStyle = '#46CA25'
+                this.ctx.fillRect(this.x + 3, this.y - 10, this.healthPercent(), 5)
+            this.ctx.restore()
+            this.ctx.save()
+                this.ctx.strokeStyle = '#000'
+                this.ctx.strokeRect(this.x + 3, this.y - 10, this.width, 5)
+            this.ctx.restore()
+        }
 	}
 
     move(bgSpeed) {
@@ -70,7 +87,7 @@ class Enemy {
             if (this.type === 'shooter') {
                 if (this.tick % 400 === 0) {
                     this.isShooting = true;
-                    this.bullets.push(new Bullet(this.ctx, this.x - 35, this.y + 10, 50, 20, 6, 'zombieBullet'));
+                    this.bullets.push(new Bullet(this.ctx, this.x - 35, this.y + 10, 50, 20, 9, 'zombieBullet'));
                     this.isShooting = false;
                 }
             }
@@ -80,6 +97,11 @@ class Enemy {
 
     receiveDamage (damage) {
         this.health = this.health - damage
+    }
+
+    healthPercent(){
+        let percent = (this.health * 100)/this.maxHealth
+        return percent * this.width / 100
     }
 
     collideWith(obstacle) {

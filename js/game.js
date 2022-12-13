@@ -6,13 +6,15 @@ class Game {
         this.tick = 0;
         this.score = 0;
         this.bg = new Background(this.ctx);
-        this.player = new Player(this.ctx, 190, 295, 100);
+        this.player = new Player(this.ctx, 190, 295);
         this.messiPower = [];
         this.enemies = [];
         this.platforms = platforms;
         this.powers = powers;
         this.powerBullets = powerBullets;
         this.powerTimer = 0;
+
+        this.messiSound = new Audio('../sounds/messi.mp3')
     }
 
     start() {
@@ -27,8 +29,11 @@ class Game {
 
             switch (true) {
                 case this.score < 10:
-                    if (this.tick % 100 === 0) {
+                    if (this.tick % 500 === 0) {
                         this.addEnemy();
+                    }
+                    if (this.tick % 200 === 0) {
+                        this.addEnemyShooter();
                     }
                     break;
                 case this.score >= 10 && this.score < 25:
@@ -61,18 +66,17 @@ class Game {
                         this.addEnemyRunner();
                     }
                     break;
-            }
+            };
             
             if (this.tick % 60 === 0 && this.powerTimer > 0) {
                 this.powerTimer--;
-            }
-
+            };
             if (this.score >= 100) {
                 this.winPage();
-            }
+            };
             if (this.player.health <= 0) {
                 this.gameOver();
-            }
+            };
         }, 1000 / 60);
     }
 
@@ -131,7 +135,6 @@ class Game {
             this.ctx,
             this.canvas.width + x,
             310,
-            100,
             "default"
         );
         this.enemies.push(enemyDefault);
@@ -142,7 +145,6 @@ class Game {
             this.ctx,
             this.canvas.width + x,
             310,
-            100,
             "shooter"
         );
         this.enemies.push(enemyShooter);
@@ -153,7 +155,6 @@ class Game {
             this.ctx,
             this.canvas.width + x,
             310,
-            100,
             "runner"
         );
         this.enemies.push(enemyRunner);
@@ -300,7 +301,13 @@ class Game {
                     }
 
                     if(power.type === 'messi') {
-                        this.addMessi();
+                        this.drawPower();
+                        setTimeout(() => {
+                            this.addMessi();
+                            this.messiSound.currentTime = 0;
+                            this.messiSound.play();
+                        },1000)
+                        
                     }
                 }
             }
@@ -323,6 +330,7 @@ class Game {
 
     clear() {
         this.enemies = this.enemies.filter((enemy) => enemy.health > 0);
+        this.messiPower = this.messiPower.filter((messi) => messi.x < this.canvas.width);
         this.enemies.forEach((enemy) => {
             enemy.bullets = enemy.bullets.filter((bullet) => bullet.isVisible);
         });
@@ -343,7 +351,20 @@ class Game {
     drawPlayerHealth() {
         this.ctx.fillStyle = '#ffffff';
 		this.ctx.font = '16px Courier New';
-		this.ctx.fillText("Wacho's Health: " + this.player.health, 10, 30);
+		this.ctx.fillText("Wacho's Health: " + this.player.health, 30, 30);
+    }
+
+    drawPower() {
+        this.ctx.drawImage(this.player.img, 500, 200, 100, 100); //agregar imagen correcta
+        this.pause();
+            
+        setTimeout(() => {
+            this.start();
+        },1000)
+    }
+
+    pause() {
+        clearInterval(this.intervalId);
     }
 
     gameOver() {
@@ -356,25 +377,27 @@ class Game {
             const gamePage = document.querySelector('.canvas-div')
             
             gamePage.classList.remove('flex');
+            gamePage.classList.remove('instructions');
             gamePage.classList.add('hidden');
             gameOverPage.classList.remove('hidden');
 	        gameOverPage.classList.add('flex');
+            gameOverPage.classList.add('instructions');
         }, 1000)
     }
 
     winPage() {
         clearInterval(this.intervalId);
-        const finalKills = document.querySelector('#total-score-won');
-        finalKills.textContent = this.score;
 
         setTimeout(() => {
             const gameWonPage = document.querySelector('.game-won')
             const gamePage = document.querySelector('.canvas-div')
             
             gamePage.classList.remove('flex');
+            gamePage.classList.remove('instructions');
             gamePage.classList.add('hidden');
             gameWonPage.classList.remove('hidden');
             gameWonPage.classList.add('flex');
+            gameWonPage.classList.add('instructions');
         }, 1000)
     }
 

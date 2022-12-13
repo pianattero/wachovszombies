@@ -20,8 +20,9 @@ class Powers {
 		};
 
         this.vx = 0;
-        this.vy = -2;
-        this.gravity = 2;
+        this.vy = 0;
+        this.maxY = y;
+        this.gravity = 0.04;
     }
 
     draw() {
@@ -32,6 +33,8 @@ class Powers {
 
     move() {
         this.x += this.vx;
+        this.y += this.vy;
+        this.vy += this.gravity;
 
         if (this.directions.left) {
 			this.vx = 5;
@@ -40,6 +43,11 @@ class Powers {
 		} else {
 			this.vx = 0;
 		}
+
+        if (this.y >= this.maxY) {
+            this.vy = - 1;
+            this.y = this.maxY - 1;
+        }
     }
 
     onKeyEvent(event) {

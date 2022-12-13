@@ -26,8 +26,9 @@ class Bullet {
 
         if (this.type === 'default' || this.type === 'chori' || this.type === 'ddl') {
             this.x += this.speed;
+            this.speed = bgSpeed + 9;
         } else if (this.type === 'zombieBullet') {
-            this.speed = bgSpeed - 7;
+            this.speed = bgSpeed - 9;
             this.x += this.speed;
         }
 	}

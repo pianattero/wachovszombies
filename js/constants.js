@@ -17,11 +17,16 @@ const platforms = [
     new Platform(ctx, 6450, 240),
     new Platform(ctx, 6505, 240),
     new Platform(ctx, 6560, 240),
-    new Platform(ctx, 6705, 160)
+    new Platform(ctx, 6705, 160),
+
+    new Platform(ctx, 8450, 240),
+    new Platform(ctx, 8605, 160),
+    new Platform(ctx, 8660, 160),
+    new Platform(ctx, 8705, 160),
 ]
 
 const powers = [
-    new Powers(ctx, 510, 200, 35, 'messi'),
+    new Powers(ctx, 512, 205, 45, 'messi'),
     new Powers(ctx, 2710, 120, 35, 'ddl'),
 ]
 

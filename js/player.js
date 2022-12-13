@@ -1,11 +1,12 @@
 class Player {
-    constructor(ctx, x, y, health) {
+    constructor(ctx, x, y) {
         this.ctx = ctx;
         this.x = x;
         this.y = y;
         this.lastY = 0;
-        this.health = health;
-        this.maxHealth = health
+        this.health = 100;
+        this.maxHealth = 100;
+        this.maxHealth = 100;
         this.width = 40;
         this.state = undefined;
         this.bullets = [];
@@ -60,6 +61,22 @@ class Player {
         }
 
         this.bullets.forEach((bullet) => bullet.draw());
+
+        // Health Bar
+        if(this.healthPercent() !== undefined){
+            this.ctx.save()
+                this.ctx.fillStyle = '#1F7E08'
+                this.ctx.fillRect(this.x - 3, this.y - 10, this.width, 5)
+            this.ctx.restore()
+            this.ctx.save()
+                this.ctx.fillStyle = '#46CA25'
+                this.ctx.fillRect(this.x - 3, this.y - 10, this.healthPercent(), 5)
+            this.ctx.restore()
+            this.ctx.save()
+                this.ctx.strokeStyle = '#000'
+                this.ctx.strokeRect(this.x - 3, this.y - 10, this.width, 5)
+            this.ctx.restore()
+        }
     }
 
     move(bgSpeed) {
@@ -112,6 +129,11 @@ class Player {
         this.health = this.health - damage;
     }
 
+    healthPercent(){
+        let percent = (this.health * 100)/this.maxHealth
+        return percent * this.width / 100
+    }
+
     collideWith(obstacle) {
         if (
             this.x < obstacle.x + obstacle.width &&
@@ -159,7 +181,7 @@ class Player {
 
         if (event.keyCode === 32 && !this.isShooting && this.canShoot) {
             this.isShooting = true;
-            const bulletSpeed = this.lastDirection.right ? 6 : -6;
+            const bulletSpeed = this.lastDirection.right ? 9 : -9;
             const xPosition = this.lastDirection.right ? this.x + 30 : this.x - 30;
 
             this.bullets.push(
