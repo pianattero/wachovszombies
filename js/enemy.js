@@ -54,11 +54,11 @@ class Enemy {
         // Health Bar
         if(this.healthPercent() !== undefined){
             this.ctx.save()
-                this.ctx.fillStyle = '#1F7E08'
+                this.ctx.fillStyle = '#921010'
                 this.ctx.fillRect(this.x + 3, this.y - 10, this.width, 5)
             this.ctx.restore()
             this.ctx.save()
-                this.ctx.fillStyle = '#46CA25'
+                this.ctx.fillStyle = '#DD1515'
                 this.ctx.fillRect(this.x + 3, this.y - 10, this.healthPercent(), 5)
             this.ctx.restore()
             this.ctx.save()
@@ -73,7 +73,7 @@ class Enemy {
         this.x += this.speed;
 
         if (this.type === 'runner') {
-            this.speed = -6
+            this.speed = -7
             this.x += this.speed;
         };
 

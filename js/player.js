@@ -42,6 +42,8 @@ class Player {
         this.isShooting = false;
 		this.canShoot = false;
         this.tick = 0;
+
+        this.shotSound = new Audio('../sounds/shot.wav');
     }
 
     draw() {
@@ -187,6 +189,9 @@ class Player {
             this.bullets.push(
                 new Bullet(this.ctx, xPosition, this.y + 25, this.state.width, this.state.strength, bulletSpeed, this.state.type)
             );
+            this.shotSound.currentTime = 0;
+			this.shotSound.play();
+            
             setTimeout(() => {
                 this.isShooting = false;
             }, 100);

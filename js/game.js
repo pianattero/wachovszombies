@@ -14,7 +14,10 @@ class Game {
         this.powerBullets = powerBullets;
         this.powerTimer = 0;
 
-        this.messiSound = new Audio('../sounds/messi.mp3')
+        this.messiSound = new Audio('../sounds/messi.mp3');
+        this.mateSound = new Audio('../sounds/mate.mp3');
+        this.gainSound = new Audio('../sounds/gain-power.wav');
+        this.gameOverSound = new Audio('../sounds/game-over.mp3');
     }
 
     start() {
@@ -24,7 +27,6 @@ class Game {
             this.move();
             this.checkCollisions();
             this.drawScore();
-            this.drawPlayerHealth();
             this.tick++;
 
             switch (true) {
@@ -32,15 +34,12 @@ class Game {
                     if (this.tick % 500 === 0) {
                         this.addEnemy();
                     }
-                    if (this.tick % 200 === 0) {
-                        this.addEnemyShooter();
-                    }
                     break;
                 case this.score >= 10 && this.score < 25:
-                    if (this.tick % 300 === 0) {
+                    if (this.tick % 350 === 0) {
                         this.addEnemy();
                     }
-                    if (this.tick % 550 === 0) {
+                    if (this.tick % 600 === 0) {
                         this.addEnemyShooter();
                     }
                     break;
@@ -257,40 +256,67 @@ class Game {
                 if (collision === 'collide') {
                     power.isVisible = false;
                     if(power.type === 'bulletsIcon') {
-                        this.player.canShoot = true;
-                        this.player.state = this.powerBullets[0];
-                        this.powerTimer = 10;
-                    }
-                    if(power.type === 'ddl') {
-                        this.player.canShoot = true;
-                        this.player.state = this.powerBullets[1];
-                        this.powerTimer = 5;
-
-                        this.addEnemy(0)
-                        this.addEnemy(100)
-                        this.addEnemy(200)
-                        this.addEnemy(300)
-                        this.addEnemy(400)
-                        this.addEnemyRunner(10)
-
-                    }
-                    if(power.type === 'chori') {
-                        this.player.canShoot = true;
-                        this.player.state = this.powerBullets[2];
-                        this.powerTimer = 5;
-
-                        this.addEnemy(0)
-                        this.addEnemy(100)
-                        this.addEnemy(200)
-                        this.addEnemy(300)
-                        this.addEnemyShooter(400)
-                        this.addEnemy(450)
-                        this.addEnemyRunner(10)
-                        this.addEnemyRunner(150)
+                        this.gainSound.currentTime = 0;
+                        this.gainSound.play();
+                        setTimeout(() => {
+                            this.player.canShoot = true;
+                            this.player.state = this.powerBullets[0];
+                            this.powerTimer = 10;
+                        }, 500)
 
                     };
-                    
-                    if(power.type === 'mate') {
+                    if(power.type === 'alfajor') {
+                        this.gainSound.currentTime = 0;
+                        this.gainSound.play();
+                        setTimeout(() => {
+                            this.player.canShoot = true;
+                            this.player.state = this.powerBullets[1];
+                            this.powerTimer = 5;
+
+                            this.addEnemy(0)
+                            this.addEnemy(100)
+                            this.addEnemy(200)
+                            this.addEnemy(300)
+                            this.addEnemy(400)
+                            this.addEnemyRunner(10)
+                        }, 500)
+                    };
+                    if(power.type === 'ddl') {
+                        this.gainSound.currentTime = 0;
+                        this.gainSound.play();
+                        setTimeout(() => {
+                            this.player.canShoot = true;
+                            this.player.state = this.powerBullets[2];
+                            this.powerTimer = 5;
+
+                            this.addEnemy(0)
+                            this.addEnemy(100)
+                            this.addEnemy(200)
+                            this.addEnemy(300)
+                            this.addEnemy(400)
+                            this.addEnemyRunner(10)
+                        }, 500)
+                    }
+                    if(power.type === 'chori') {
+                        this.gainSound.currentTime = 0;
+                        this.gainSound.play();
+                        setTimeout(() => {
+                            this.player.canShoot = true;
+                            this.player.state = this.powerBullets[3];
+                            this.powerTimer = 5;
+
+                            this.addEnemy(0)
+                            this.addEnemy(100)
+                            this.addEnemy(200)
+                            this.addEnemy(300)
+                            this.addEnemyShooter(400)
+                            this.addEnemy(450)
+                            this.addEnemyRunner(10)
+                            this.addEnemyRunner(150)
+                        }, 500)
+                    };
+
+                    if(power.type === 'mate' || power.type === 'fernet') {
                         if (this.player.health <= 80) {
                             this.player.health += 20
                         } else if (this.player.health > 80) {
@@ -298,15 +324,17 @@ class Game {
                         } else if (this.player.health === 100) {
                             this.player.health = 100;
                         }
+
+                        if(power.type === 'mate') {
+                            this.mateSound.currentTime = 0;
+                            this.mateSound.play();
+                        }
                     }
 
                     if(power.type === 'messi') {
-                        this.drawPower();
-                        setTimeout(() => {
-                            this.addMessi();
-                            this.messiSound.currentTime = 0;
-                            this.messiSound.play();
-                        },1000)
+                        this.addMessi();
+                        this.messiSound.currentTime = 0;
+                        this.messiSound.play();
                         
                     }
                 }
@@ -344,24 +372,9 @@ class Game {
 
     drawScore() {
 		this.ctx.fillStyle = '#ffffff';
-		this.ctx.font = '16px Courier New';
-		this.ctx.fillText("Kills: " + this.score, 1090, 30);
+		this.ctx.font = '16px Zen Dots';
+		this.ctx.fillText("Kills: " + this.score, 20, 30);
 	}
-
-    drawPlayerHealth() {
-        this.ctx.fillStyle = '#ffffff';
-		this.ctx.font = '16px Courier New';
-		this.ctx.fillText("Wacho's Health: " + this.player.health, 30, 30);
-    }
-
-    drawPower() {
-        this.ctx.drawImage(this.player.img, 500, 200, 100, 100); //agregar imagen correcta
-        this.pause();
-            
-        setTimeout(() => {
-            this.start();
-        },1000)
-    }
 
     pause() {
         clearInterval(this.intervalId);
@@ -369,6 +382,10 @@ class Game {
 
     gameOver() {
         clearInterval(this.intervalId);
+        this.gameOverSound.currentTime = 0;
+        this.gameOverSound.play();
+        this.gameOverSound.volume = 0.5;
+
         const finalKills = document.querySelector('#total-score-lose');
         finalKills.textContent = this.score;
 
@@ -403,7 +420,7 @@ class Game {
 
     printSeconds() {
         this.ctx.fillStyle = 'red';
-		this.ctx.font = '20px Courier New';
+		this.ctx.font = '20px Zen Dots';
 		this.ctx.fillText("SHOOTING TIME: " + this.powerTimer, 500, 50);
     }
 

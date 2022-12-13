@@ -1,10 +1,12 @@
+const homeSound = new Audio('../sounds/home.mp3');
+
 window.onload = () => {
 	homeSound.play();
 	homeSound.volume = 0.2;
 };
 
+const introSound = new Audio('../sounds/they-are-coming.mp3');
 const game = new Game('canvas');
-const homeSound = new Audio('../sounds/home.mp3');
 
 canvasDiv = document.querySelector('.canvas-div');
 startBtn = document.querySelector('.menu-btns .start-btn');
@@ -32,6 +34,10 @@ gameWonDiv = document.querySelector('.game-won');
 startBtn.addEventListener('click', () => {
 	game.start();
 	homeSound.pause();
+	setTimeout(() => {
+		introSound.play();
+		introSound.volume = 0.5;
+	}, 1500);
 	canvasDiv.classList.remove('hidden');
 	canvasDiv.classList.add('flex');
 	homeDiv.classList.remove('flex');

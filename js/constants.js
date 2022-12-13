@@ -1,14 +1,10 @@
 const ctx = document.getElementById('canvas').getContext('2d');
 
 const platforms = [
-    new Platform(ctx, 450, 240),
-    new Platform(ctx, 505, 240),
-    new Platform(ctx, 560, 240),
-
-    new Platform(ctx, 2450, 240),
-    new Platform(ctx, 2505, 240),
-    new Platform(ctx, 2560, 240),
-    new Platform(ctx, 2705, 160),
+    new Platform(ctx, 1450, 240),
+    new Platform(ctx, 1505, 240),
+    new Platform(ctx, 1560, 240),
+    new Platform(ctx, 1705, 160),
 
     new Platform(ctx, 4450, 240),
     new Platform(ctx, 4505, 240),
@@ -22,12 +18,16 @@ const platforms = [
     new Platform(ctx, 8450, 240),
     new Platform(ctx, 8605, 160),
     new Platform(ctx, 8660, 160),
-    new Platform(ctx, 8705, 160),
+    new Platform(ctx, 8715, 160),
 ]
 
 const powers = [
-    new Powers(ctx, 512, 205, 45, 'messi'),
-    new Powers(ctx, 2710, 120, 35, 'ddl'),
+    new Powers(ctx, 1712, 125, 35, 'bulletsIcon'),
+    new Powers(ctx, 4400, 335, 35, 'bulletsIcon'),
+    new Powers(ctx, 4517, 215, 25, 'alfajor'),
+
+
+
 ]
 
 const powerBullets = [
@@ -37,13 +37,18 @@ const powerBullets = [
         width: 25,
     },
     {
+        type: 'alfajor',
+        strength: 50,
+        width: 20,
+    },
+    {
         type: 'ddl',
         strength: 50,
-        width: 30,
+        width: 20,
     },
     {
         type: 'chori',
         strength: 100,
-        width: 40,
+        width: 30,
     },
 ]

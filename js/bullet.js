@@ -24,9 +24,8 @@ class Bullet {
 
 	move(bgSpeed) {
 
-        if (this.type === 'default' || this.type === 'chori' || this.type === 'ddl') {
+        if (this.type === 'default' || this.type === 'chori' || this.type === 'ddl' || this.type === 'alfajor') {
             this.x += this.speed;
-            this.speed = bgSpeed + 9;
         } else if (this.type === 'zombieBullet') {
             this.speed = bgSpeed - 9;
             this.x += this.speed;
