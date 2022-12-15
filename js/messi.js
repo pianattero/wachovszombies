@@ -8,24 +8,26 @@ class Messi {
         this.tick = 0;
 
         this.horizontalFrames = 6;
-		this.verticalFrames = 1;
-		this.xFrame = 0;
-		this.yFrame = 0;
+        this.verticalFrames = 1;
+        this.xFrame = 0;
+        this.yFrame = 0;
 
         this.img = new Image();
-        this.img.src = '/images/messi.png'
+        this.img.src = "/images/messi.png";
         this.img.onload = () => {
-			this.isReady = true;
-			this.height = this.width * this.img.height / (this.img.width / this.horizontalFrames);
-		};
+            this.isReady = true;
+            this.height =
+                (this.width * this.img.height) /
+                (this.img.width / this.horizontalFrames);
+        };
     }
 
     draw() {
         if (this.isReady) {
             this.ctx.drawImage(
                 this.img,
-                this.img.width / this.horizontalFrames * this.xFrame,
-                this.img.height / this.verticalFrames * this.yFrame,
+                (this.img.width / this.horizontalFrames) * this.xFrame,
+                (this.img.height / this.verticalFrames) * this.yFrame,
                 this.img.width / this.horizontalFrames,
                 this.img.height / this.verticalFrames,
                 this.x,
@@ -45,7 +47,7 @@ class Messi {
 
             if (this.xFrame >= this.horizontalFrames) {
                 this.xFrame = 0;
-            };
+            }
         }
-	}
+    }
 }

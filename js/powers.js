@@ -7,17 +7,17 @@ class Powers {
         this.width = width;
         this.isVisible = true;
         this.img = new Image();
-        this.img.src = `/images/power-${this.type}.png`
+        this.img.src = `/images/power-${this.type}.png`;
         this.img.onload = () => {
             this.isReady = true;
-            this.height = this.width * this.img.height / this.img.width;
+            this.height = (this.width * this.img.height) / this.img.width;
         };
         this.intervalId = null;
 
         this.directions = {
-			left: false,
-			right: false
-		};
+            left: false,
+            right: false,
+        };
 
         this.vx = 0;
         this.vy = 0;
@@ -27,8 +27,14 @@ class Powers {
 
     draw() {
         if (this.isReady && this.isVisible) {
-            this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-		}
+            this.ctx.drawImage(
+                this.img,
+                this.x,
+                this.y,
+                this.width,
+                this.height
+            );
+        }
     }
 
     move() {
@@ -37,24 +43,24 @@ class Powers {
         this.vy += this.gravity;
 
         if (this.directions.left) {
-			this.vx = 5;
-		} else if (this.directions.right) {
-			this.vx = -5;
-		} else {
-			this.vx = 0;
-		}
+            this.vx = 5;
+        } else if (this.directions.right) {
+            this.vx = -5;
+        } else {
+            this.vx = 0;
+        }
 
         if (this.y >= this.maxY) {
-            this.vy = - 1;
+            this.vy = -1;
             this.y = this.maxY - 1;
         }
     }
 
     onKeyEvent(event) {
-		if (event.keyCode === 37) {
-			this.directions.left = event.type === "keydown";
-		} else if (event.keyCode === 39) {
-			this.directions.right = event.type === "keydown";
-		}
-	}
+        if (event.keyCode === 37) {
+            this.directions.left = event.type === "keydown";
+        } else if (event.keyCode === 39) {
+            this.directions.right = event.type === "keydown";
+        }
+    }
 }

@@ -10,7 +10,7 @@ class Player {
         this.width = 40;
         this.state = undefined;
         this.bullets = [];
-		this.isInvincible = false;
+        this.isInvincible = false;
 
         this.horizontalFrames = 5;
         this.verticalFrames = 4;
@@ -40,10 +40,10 @@ class Player {
         };
         this.isJumping = false;
         this.isShooting = false;
-		this.canShoot = false;
+        this.canShoot = false;
         this.tick = 0;
 
-        this.shotSound = new Audio('../sounds/shot.wav');
+        this.shotSound = new Audio("../sounds/shot.wav");
     }
 
     draw() {
@@ -65,19 +65,19 @@ class Player {
         this.bullets.forEach((bullet) => bullet.draw());
 
         // Health Bar
-        if(this.healthPercent() !== undefined){
-            this.ctx.save()
-                this.ctx.fillStyle = '#1F7E08'
-                this.ctx.fillRect(this.x - 3, this.y - 10, this.width, 5)
-            this.ctx.restore()
-            this.ctx.save()
-                this.ctx.fillStyle = '#46CA25'
-                this.ctx.fillRect(this.x - 3, this.y - 10, this.healthPercent(), 5)
-            this.ctx.restore()
-            this.ctx.save()
-                this.ctx.strokeStyle = '#000'
-                this.ctx.strokeRect(this.x - 3, this.y - 10, this.width, 5)
-            this.ctx.restore()
+        if (this.healthPercent() !== undefined) {
+            this.ctx.save();
+            this.ctx.fillStyle = "#1F7E08";
+            this.ctx.fillRect(this.x - 3, this.y - 10, this.width, 5);
+            this.ctx.restore();
+            this.ctx.save();
+            this.ctx.fillStyle = "#46CA25";
+            this.ctx.fillRect(this.x - 3, this.y - 10, this.healthPercent(), 5);
+            this.ctx.restore();
+            this.ctx.save();
+            this.ctx.strokeStyle = "#000";
+            this.ctx.strokeRect(this.x - 3, this.y - 10, this.width, 5);
+            this.ctx.restore();
         }
     }
 
@@ -86,7 +86,6 @@ class Player {
         this.lastY = this.y;
         this.y += this.vy;
         this.vy += this.gravity;
-
         if (this.directions.left) {
             if (this.tick % 8 === 0) {
                 this.yFrame = 2;
@@ -103,7 +102,7 @@ class Player {
                     this.xFrame = 0;
                 }
             }
-        } else {
+        } else if (!this.isInvincible) {
             this.xFrame = 2;
             this.yFrame = this.lastDirection.left ? 3 : 1;
         }
@@ -124,16 +123,28 @@ class Player {
             this.isJumping = false;
         }
 
-		this.bullets.forEach((bullet) => bullet.move(bgSpeed));
+        this.bullets.forEach((bullet) => bullet.move(bgSpeed));
     }
 
     receiveDamage(damage) {
         this.health = this.health - damage;
+        this.isInvincible = true;
+
+        this.xFrame = 1;
+        if (this.lastDirection.left) {
+            this.yFrame = 3;
+        } else if (this.lastDirection.right) {
+            this.yFrame = 1;
+        }
+
+        setTimeout(() => {
+            this.isInvincible = false;
+        }, 1000);
     }
 
-    healthPercent(){
-        let percent = (this.health * 100)/this.maxHealth
-        return percent * this.width / 100
+    healthPercent() {
+        let percent = (this.health * 100) / this.maxHealth;
+        return (percent * this.width) / 100;
     }
 
     collideWith(obstacle) {
@@ -184,17 +195,28 @@ class Player {
         if (event.keyCode === 32 && !this.isShooting && this.canShoot) {
             this.isShooting = true;
             const bulletSpeed = this.lastDirection.right ? 9 : -9;
-            const xPosition = this.lastDirection.right ? this.x + 30 : this.x - 30;
+            const xPosition = this.lastDirection.right
+                ? this.x + 30
+                : this.x - 30;
 
             this.bullets.push(
-                new Bullet(this.ctx, xPosition, this.y + 25, this.state.width, this.state.strength, bulletSpeed, this.state.type)
+                new Bullet(
+                    this.ctx,
+                    xPosition,
+                    this.y + 25,
+                    this.state.width,
+                    this.state.strength,
+                    bulletSpeed,
+                    this.state.type
+                )
             );
             this.shotSound.currentTime = 0;
-			this.shotSound.play();
-            
+            this.shotSound.volume = 0.4;
+            this.shotSound.play();
+
             setTimeout(() => {
                 this.isShooting = false;
-            }, 100);
+            }, 180);
         }
     }
 
