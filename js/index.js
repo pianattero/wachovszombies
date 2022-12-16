@@ -30,7 +30,7 @@ gameWonDiv = document.querySelector(".game-won");
 areYouReadyBtn.addEventListener("click", () => {
     homeSound.loop = true;
     homeSound.play();
-    homeSound.volume = 0.5;
+    homeSound.volume = 0.3;
     homeDiv.classList.remove("flex");
     homeDiv.classList.remove("instructions");
     homeDiv.classList.add("hidden");
@@ -42,11 +42,11 @@ areYouReadyBtn.addEventListener("click", () => {
 startBtn.addEventListener("click", () => {
     game.start();
     game.gameSound.play();
-    game.gameSound.volume = 0.2;
+    game.gameSound.volume = 0.15;
     homeSound.pause();
     setTimeout(() => {
         introSound.play();
-        introSound.volume = 0.5;
+        introSound.volume = 0.3;
     }, 1500);
     canvasDiv.classList.remove("hidden");
     canvasDiv.classList.add("flex");

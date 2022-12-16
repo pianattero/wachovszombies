@@ -107,7 +107,7 @@ class Player {
             this.yFrame = this.lastDirection.left ? 3 : 1;
         }
 
-        if (this.isJumping) {
+        if (this.isJumping && !this.isInvincible) {
             this.xFrame = 0;
             if (this.directions.left) {
                 this.yFrame = 3;
@@ -211,12 +211,12 @@ class Player {
                 )
             );
             this.shotSound.currentTime = 0;
-            this.shotSound.volume = 0.4;
+            this.shotSound.volume = 0.2;
             this.shotSound.play();
 
             setTimeout(() => {
                 this.isShooting = false;
-            }, 180);
+            }, 200);
         }
     }
 

@@ -4,7 +4,7 @@ class Argentinians {
         this.x = x;
         this.y = y;
         this.damage = 50;
-        this.speed = 6;
+        this.speed = 0;
         this.width = 200;
         this.img = new Image();
         this.img.src = "/images/argentinians.png";
@@ -26,7 +26,7 @@ class Argentinians {
         }
     }
 
-    move() {
-        this.x += this.speed;
-    }
+    move(bgSpeed) {
+        this.speed = bgSpeed + 7;
+        this.x += this.speed;    }
 }

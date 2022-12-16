@@ -38,6 +38,12 @@ body {
     top: 35%;
     right: 28%;
 }
+
+.home-page {
+    position: absolute;
+    top: 32%;
+}
+
 .pause-page {
     position: absolute;
     top: 32%;

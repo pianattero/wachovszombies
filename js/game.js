@@ -20,7 +20,10 @@ class Game {
         this.messiSound = new Audio("../sounds/messi.mp3");
         this.mateSound = new Audio("../sounds/mate.mp3");
         this.gainSound = new Audio("../sounds/gain-power.wav");
+        this.warningSound = new Audio("../sounds/warning.wav");
+        this.argentinianSound = new Audio("../sounds/hinchada.mp3");
         this.gameOverSound = new Audio("../sounds/game-over.mp3");
+        this.winSound = new Audio("../sounds/win-song.mp3");
         this.gameSound = new Audio("../sounds/game-song.mp3");
     }
 
@@ -35,7 +38,7 @@ class Game {
 
             switch (true) {
                 case this.score < 10:
-                    if (this.tick % 100 === 0) {
+                    if (this.tick % 300 === 0) {
                         this.addEnemy();
                     }
                     break;
@@ -48,7 +51,7 @@ class Game {
                     }
                     break;
                 case this.score >= 25 && this.score < 50:
-                    if (this.tick % 300 === 0) {
+                    if (this.tick % 250 === 0) {
                         this.addEnemy();
                     }
                     if (this.tick % 350 === 0) {
@@ -58,21 +61,23 @@ class Game {
                         this.addEnemyRunner();
                     }
                     break;
-                case this.score > 50:
+                case this.score >= 50:
                     if (this.tick % 200 === 0) {
                         this.addEnemy();
                     }
-                    if (this.tick % 275 === 0) {
+                    if (this.tick % 200 === 0) {
                         this.addEnemyShooter();
                     }
-                    if (this.tick % 350 === 0) {
+                    if (this.tick % 400 === 0) {
                         this.addEnemyRunner();
                     }
                     break;
             }
 
-            if (this.tick % 500 === 0) {
+            if (this.tick % 3000 === 0) {
                 this.pause();
+                this.warningSound.volume = 0.1;
+                this.warningSound.play();
                 this.argWarning.classList.remove("hidden");
                 this.argWarning.classList.add("flex");
 
@@ -80,10 +85,12 @@ class Game {
                     this.start();
                     this.argWarning.classList.add("hidden");
                     this.argWarning.classList.remove("flex");
+                    this.argentinianSound.volume = 0.5;
+                    this.argentinianSound.play();
                     setTimeout(() => {
                         this.addArgentinians();
                     }, 2000);
-                }, 1000);
+                }, 3000);
             }
 
             if (this.tick % 60 === 0 && this.powerTimer > 0) {
@@ -126,7 +133,7 @@ class Game {
         this.bg.move();
         this.player.move(this.bg.speed);
         this.argentinians.forEach((argentinian) => {
-            argentinian.move();
+            argentinian.move(this.bg.speed);
         });
         this.messiPower.forEach((messi) => {
             messi.move();
@@ -151,7 +158,7 @@ class Game {
     }
 
     addMessi() {
-        const messi = new Messi(this.ctx, 0, 315);
+        const messi = new Messi(this.ctx, -50, 315);
         this.messiPower.push(messi);
     }
 
@@ -186,7 +193,7 @@ class Game {
     }
 
     checkCollisions() {
-        // Enemies collides with player bullets
+        // ENEMIES COLLIDES WITH PLAYER BULLETS
         this.enemies.some((enemy) => {
             this.player.bullets.some((bullet) => {
                 if (enemy.collideWith(bullet)) {
@@ -200,7 +207,7 @@ class Game {
             });
         });
 
-        // Enemies collides with messi
+        // ENEMIES COLLIDES WITH MESSI
         this.enemies.some((enemy) => {
             this.messiPower.some((messi) => {
                 if (enemy.collideWith(messi)) {
@@ -213,7 +220,7 @@ class Game {
             });
         });
 
-        // Enemies collides with argentinians
+        // ENEMIES COLLIDES WITH ARGENTINIANS
         this.enemies.some((enemy) => {
             this.argentinians.some((argentinian) => {
                 if (
@@ -226,7 +233,7 @@ class Game {
             });
         });
 
-        // Player collides with argentinians
+        // PLAYER COLLIDES WITH ARGENTINIANS
         this.argentinians.some((argentinian) => {
             const collision = this.player.collideWith(argentinian);
 
@@ -240,7 +247,7 @@ class Game {
             }
         });
 
-        // Player collides with zombie Bullets
+        // PLAYER COLLIDES WITH ZOMBIE BULLETS
         this.enemies.some((enemy) => {
             enemy.bullets.some((bullet) => {
                 const collision = this.player.collideWith(bullet);
@@ -261,7 +268,7 @@ class Game {
             });
         });
 
-        // Player collides with zombies
+        // PLAYER COLLIDES WITH ZOMBIES
         this.enemies.some((enemy) => {
             const collision = this.player.collideWith(enemy);
             if (collision) {
@@ -284,7 +291,7 @@ class Game {
             }
         });
 
-        // Player collides with powers
+        // PLAYER COLLIDES WITH POWERS
         this.powers.some((power) => {
             const collision = this.player.collideWith(power);
 
@@ -293,7 +300,7 @@ class Game {
                     power.isVisible = false;
                     if (power.type === "bulletsIcon") {
                         this.gainSound.currentTime = 0;
-                        this.gainSound.volume = 0.4;
+                        this.gainSound.volume = 0.2;
                         this.gainSound.play();
                         setTimeout(() => {
                             this.player.canShoot = true;
@@ -314,7 +321,6 @@ class Game {
                             this.addEnemyRunner(10);
                             this.addEnemy(100);
                             this.addEnemyShooter(200);
-                            this.addEnemy(300);
                         }, 500);
                     }
                     if (power.type === "ddl") {
@@ -330,7 +336,6 @@ class Game {
                             this.addEnemyRunner(10);
                             this.addEnemy(100);
                             this.addEnemyShooter(200);
-                            this.addEnemy(300);
                         }, 500);
                     }
                     if (power.type === "chori") {
@@ -346,14 +351,13 @@ class Game {
                             this.addEnemyRunner(10);
                             this.addEnemy(100);
                             this.addEnemyRunner(150);
-                            this.addEnemy(200);
-                            this.addEnemyShooter(300);
-                            this.addEnemy(400);
+                            this.addEnemyShooter(250);
                         }, 500);
                     }
 
                     if (power.type === "mate") {
                         this.mateSound.currentTime = 0;
+                        this.mateSound.volume = 0.8;
                         this.mateSound.play();
 
                         if (this.player.health <= 80) {
@@ -374,7 +378,7 @@ class Game {
             }
         });
 
-        // Player collides with platforms
+        // PLAYER COLLIDES WITH PLATFORMS
         this.platforms.some((platform) => {
             const collision = this.player.collideWith(platform);
             if (collision) {
@@ -393,6 +397,9 @@ class Game {
         this.enemies = this.enemies.filter((enemy) => enemy.health > 0);
         this.messiPower = this.messiPower.filter(
             (messi) => messi.x < this.canvas.width
+        );
+        this.argentinians = this.argentinians.filter(
+            (argentinian) => argentinian.x < this.canvas.width
         );
         this.enemies.forEach((enemy) => {
             enemy.bullets = enemy.bullets.filter((bullet) => bullet.isVisible);
@@ -418,9 +425,9 @@ class Game {
     gameOver() {
         clearInterval(this.intervalId);
         this.gameSound.pause();
-        this.gameOverSound.currentTime = 0;
+        this.argentinianSound.pause();
         this.gameOverSound.play();
-        this.gameOverSound.volume = 0.3;
+        this.gameOverSound.volume = 0.1;
 
         const finalKills = document.querySelector("#total-score-lose");
         finalKills.textContent = this.score;
@@ -441,6 +448,8 @@ class Game {
     winPage() {
         clearInterval(this.intervalId);
         this.gameSound.pause();
+        this.winSound.play();
+        this.winSound.volume = 0.3;
 
         setTimeout(() => {
             const gameWonPage = document.querySelector(".game-won");

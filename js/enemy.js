@@ -88,7 +88,7 @@ class Enemy {
             }
 
             if (this.type === "shooter") {
-                if (this.tick % 300 === 0) {
+                if (this.tick % 200 === 0) {
                     this.isShooting = true;
                     this.bullets.push(
                         new Bullet(
